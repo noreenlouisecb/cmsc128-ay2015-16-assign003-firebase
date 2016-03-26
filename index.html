@@ -3,12 +3,14 @@
   <head>
     <title> Event Guest Attendance </title>
     <meta charset="utf-8">
+    <!-- CSS files/ Stylesheets -->
     <link rel="stylesheet" href="css/materialize.css">
     <link rel="stylesheet" href="css/materialize.min.css">
     <link rel="stylesheet" href="font/material-design-icons/icon.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Installed Firebase Library -->
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <!-- Import JQuery -->
     <script src="js/jquery.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/jquery-1.12.0.js"></script>
@@ -54,10 +56,14 @@
         <tbody id="attendancediv">
         </tbody>
       </table>
+
     <script>
+      // Create a reference to access firebase database
       var myDataRef = new Firebase('https://eventguestattendance.firebaseio.com/');
 
+      // Retrieve data in firebase database on append it to the table
       $(document).ready(function(){
+        // call back to the list of obj: notify us if info arrived to the database
         myDataRef.on('child_added', function(snapshot) {
           var attendance = snapshot.val();
           displayAttendance(attendance.name, attendance.organization, attendance.contactnum, attendance.datetime);
@@ -68,6 +74,7 @@
           $('#attendancediv')[0].scrollTop = $('#attendancediv')[0].scrollHeight;
         };
 
+        // Reset form on submit and prevents page to refresh
         $('#attendanceForm').submit(function(e){
           $('#attendanceForm')[0].reset();
           e.preventDefault();
@@ -75,6 +82,7 @@
 
       });
 
+      // When add button is clicked
       function recordGuestAttendance(){
           var name = $('#icon_name').val();
           var organization = $('#icon_business').val();
@@ -82,15 +90,18 @@
           var datetime = new Date();
           datetime = datetime.toString();
 
+          // Checks if the no input is null
           if(name != '' && organization != '' && contactnum != ''){
+            // push the object to firebase database
             myDataRef.push({name: name, organization: organization, contactnum: contactnum, datetime: datetime});
+            // clear the input text
             $('icon_prefix').val('');
             $('icon_business').val('');
             $('icon_telephone').val('');
           }
       }
-
     </script>
+    <!-- Import JS of materialze -->
     <script src="js/materialize.js"></script>
     <script src="js/materialize.min.js"></script>
   </body>
