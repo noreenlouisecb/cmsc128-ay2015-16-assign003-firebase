@@ -14,9 +14,6 @@
   <body>
     <nav>
       <div class="nav-wrapper blue">
-        <ul class="left hide-on-med-and-down">
-          <li><a href="#!"><i class="material-icons">library_books</i></a></li>
-        </ul>
         <a href="#!" class="brand-logo center"> Event Guest Attendance</a>
       </div>
     </nav>
@@ -36,13 +33,25 @@
            <input placeholder="Contact Number" id="icon_telephone" type="tel" class="validate" required="required">
          </div>
          <div class="input-field col s1">
-           <button onclick="recordGuestAttendance()" class="btn-floating btn-medium waves-effect waves-light blue" type="submit" name="action">
+           <button onclick="recordGuestAttendance()" class="btn-floating btn-medium waves-effect waves-light blue" type="submit">
              <i class="material-icons">add</i>
            </button>
          </div>
        </div>
      </form>
     </div>
+    <table class="highlight centered responsive-table">
+        <thead>
+          <tr>
+            <th data-field="name">Name</th>
+            <th data-field="organization">Organization</th>
+            <th data-field="contactnum">Contact Number</th>
+            <th data-field="time"> Date & Time </th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
     <script>
       var myDataRef = new Firebase('https://eventguestattendance.firebaseio.com/');
 
@@ -50,13 +59,26 @@
           var name = $('#icon_name').val();
           var organization = $('#icon_business').val();
           var contactnum = $('#icon_telephone').val();
-          console.log("dsfgbsad");
-          myDataRef.push({name: name, organization: organization, contactnum: contactnum});
+          var datetime = new Date();
+          datetime = datetime.toString();
+          console.log(datetime);
+          myDataRef.push({name: name, organization: organization, contactnum: contactnum, datetime: datetime});
 
           $('icon_prefix').val('');
           $('icon_business').val('');
           $('icon_telephone').val('');
       }
+        /*
+        // call back to the list of obj: notify us if info arrived to the database
+        myDataRef.on('child_added', function(snapshot) {
+          var info = snapshot.val();
+          displayChatMessage(info.name, info.organization, info.contactnum);
+        });
+
+        function displayChatMessage(name, text) {
+          $('<div/>').text(organization + " " + contactnum).prepend($('<em/>').text(name + ': ')).appendTo($('#infoDiv'));
+          $('#infoDiv')[0].scrollTop = $('#infoDiv')[0].scrollHeight;
+        };*/
     </script>
     <script src="js/materialize.js"></script>
     <script src="js/materialize.min.js"></script>
